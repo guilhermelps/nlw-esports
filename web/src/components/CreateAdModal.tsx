@@ -13,7 +13,11 @@ interface Game {
   title: string;
 }
 
-export function CreateAdModal() {
+interface CreateModalProps {
+  closeDialog: () => void;
+}
+
+export function CreateAdModal({ closeDialog }: CreateModalProps) {
   const [games, setGames] = useState<Game[]>([]);
   const [weekDays, setWeekDays] = useState<string[]>([]);
   const [useVoiceChannel, setUseVoiceChannel] = useState(false);
@@ -43,7 +47,9 @@ export function CreateAdModal() {
         hourStart: data.hourStart,
         hourEnd: data.hourEnd,
         useVoiceChannel: useVoiceChannel
-      })
+      });
+
+      closeDialog();
 
       alert('Anúncio criado com sucesso!')
     } catch (err) {
@@ -65,7 +71,7 @@ export function CreateAdModal() {
                 <select
                   name="game"
                   id="game"
-                  className="bg-zinc-900 py-3 px-4 rounded text-sm placeholder:text-zinc-500 appearance-none"
+                  className="bg-zinc-900 py-3 px-4 rounded text-sm placeholder:text-zinc-500 appearance-none outline-none"
                   defaultValue=""
                 >
                   <option disabled value="">Selecione o game que deseja jogar</option>
@@ -156,8 +162,8 @@ export function CreateAdModal() {
                 <div className="flex flex-col gap-2 flex-1">
                   <label htmlFor="hourStart">Qual horário do dia?</label>
                   <div className="grid grid-cols-2 gap-2">
-                    <Input name="hourStart" id="hourStart" type="time" placeholder="De" />
-                    <Input name="hourEnd" id="hourEnd" type="time" placeholder="Até" />
+                    <input name="hourStart" id="hourStart" type="time" placeholder="De" className="bg-zinc-900 p-3 rounded text-sm placeholder:text-zinc-500 outline-none" />
+                    <input name="hourEnd" id="hourEnd" type="time" placeholder="Até" className="bg-zinc-900 p-3 rounded text-sm placeholder:text-zinc-500 outline-none" />
                   </div>
                 </div>
               </div>

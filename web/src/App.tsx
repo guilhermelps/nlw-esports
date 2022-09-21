@@ -21,12 +21,17 @@ interface Game {
 
 function App() {
   const [games, setGames] = useState<Game[]>([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     axios('http://localhost:3333/games').then(response => {
       setGames(response.data);
     });
-  }, []);
+  }, [open]);
+
+  function closeDialog() {
+    setOpen(false);
+  }
 
   return (
     <div className="max-w-[1344px] mx-auto flex flex-col items-center my-20"> 
@@ -49,9 +54,9 @@ function App() {
         })}
       </div>
 
-      <Dialog.Root>
+      <Dialog.Root open={open} onOpenChange={setOpen}>
         <CreateAdBanner />
-        <CreateAdModal />
+        <CreateAdModal closeDialog={closeDialog} />
       </Dialog.Root>
     </div>
   );
